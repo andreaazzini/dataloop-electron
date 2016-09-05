@@ -1,7 +1,7 @@
 var fs = require('fs')
   , database = process.argv[2]
   , collection = process.argv[3]
-  , filename = 'data/export/' + collection + '.json'
+  , filename = 'data/shared/' + collection + '.json'
   , json = JSON.parse(fs.readFileSync(filename, 'utf8'));
 
 var newJson = {}

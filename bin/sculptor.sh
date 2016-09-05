@@ -41,8 +41,8 @@ else
     mongo $d src/js/sculptor.js --eval "var collection='${c}', partywords=$partywords, topicwords=$topicwords;" --quiet;
 
     echo "Exporting data...";
-    mkdir -p data/export
-    mongoexport --quiet --jsonArray --sort "{value: -1}" --limit 100 --db $d --collection "${c}_word_count" --out data/export/"${c}.json";
+    mkdir -p data/shared
+    mongoexport --quiet --jsonArray --sort "{value: -1}" --limit 100 --db $d --collection "${c}_word_count" --out data/shared/"${c}.json";
 
     echo "Finishing...";
     node src/js/decorator.js $d $c;

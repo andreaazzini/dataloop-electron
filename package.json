@@ -19,6 +19,7 @@
   "homepage": "https://github.com/andreaazzini/dataloop#readme",
   "dependencies": {
     "csvtojson": "^1.0.0",
+    "express": "^4.14.0",
     "twitter-scraper-cli": "^2.2.0"
   }
 }

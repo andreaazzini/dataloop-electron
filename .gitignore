@@ -3,7 +3,9 @@ __pycache__/
 *$py.class
 
 node_modules/
+config/
 data/
+public/
+routes/
 
-commands
-twitterconfig.json
+app.js
