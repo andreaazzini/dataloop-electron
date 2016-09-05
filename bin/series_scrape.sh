@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IFS=$"" queries=($(cat ../config/commands))
+IFS=$"" queries=($(cat config/commands))
 for i in $(seq ${#queries[*]}); do
     [[ ${queries[$i-1]} = $name ]]
 done

@@ -1,0 +1,24 @@
+{
+  "name": "dataloop",
+  "version": "1.0.0",
+  "description": "scrape |> sculpt |> visualize |> analyze",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreaazzini/dataloop.git"
+  },
+  "keywords": [],
+  "author": "Andrea Azzini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreaazzini/dataloop/issues"
+  },
+  "homepage": "https://github.com/andreaazzini/dataloop#readme",
+  "dependencies": {
+    "csvtojson": "^1.0.0",
+    "twitter-scraper-cli": "^2.2.0"
+  }
+}

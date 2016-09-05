@@ -4,15 +4,15 @@ import csv
 import subprocess
 import sys
 
-sys.path.insert(0, '../src')
+sys.path.insert(0, 'src/py')
 
 from utils import cartesian, flatten, is_valid_query, pairwise
 
 
 # Config
 
-csv_folder = '../data/csv/'
-twitter_config = '../config/twitterconfig.json'
+csv_folder = 'data/csv/'
+twitter_config = 'config/twitterconfig.json'
 
 # Get the hashtags for parties and topics
 
@@ -93,8 +93,8 @@ for i, query in enumerate(queries):
     else:
         print 'WARNING: the query ' + query +' is too long!'
 
-f = open('../config/commands', 'w')
+f = open('config/commands', 'w')
 f.write(commands)
 
 print 'Launching...'
-subprocess.call(["./series_scrape.sh"])
+subprocess.call(["bin/series_scrape.sh"])
