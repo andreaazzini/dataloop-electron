@@ -47,8 +47,8 @@ Generate the pages and the routes.
 bin/generate.js
 ```
 
-Run the server locally.
+Run the application locally.
 
 ```
-node app.js
+npm start
 ```
