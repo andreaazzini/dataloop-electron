@@ -37,7 +37,7 @@ var navTemplate = function(names) {
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="/">Dataloop</a>
+    <a class="navbar-brand" href="#">Dataloop</a>
   </div>
 
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -46,9 +46,9 @@ var navTemplate = function(names) {
     for (i in names) {
         name = names[i];
         if (i == 0) {
-            template += '<li><a href="./' + name + '">' + name.capitalize() + ' <span class="sr-only">(current)</span></a></li>'
+            template += '<li><a href="./' + name + '.html">' + name.capitalize() + ' <span class="sr-only">(current)</span></a></li>'
         } else {
-            template += '<li><a href="./' + name + '">' + name.capitalize() + '</a></li>'
+            template += '<li><a href="./' + name + '.html">' + name.capitalize() + '</a></li>'
         }
     }
 
@@ -65,15 +65,18 @@ var htmlTemplate = function(name) {
     var template =
 `<html>
   <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
+      window.$ = window.jQuery = require('jquery');
+      require('bootstrap');
+
       $(function(){
         $("nav").load("navbar.html");
       });
     </script>
+
+    <title>Dataloop</title>
   </head>
 
   <body>
@@ -81,8 +84,9 @@ var htmlTemplate = function(name) {
     <div class="container">
       <div class="row">
         <div class="col-md-12 svg-container">
-          <script src="//d3js.org/d3.v3.min.js"></script>
           <script>
+            var d3 = require('d3');
+
             var diameter = 960,
                 format = d3.format(",d"),
                 color = d3.scale.category10();
@@ -144,71 +148,12 @@ var htmlTemplate = function(name) {
     return template;
 }
 
-var routeTemplate = function(name) {
-    var template =
-`var express = require('express')
-  , router = express.Router();
-
-router.get('/', function (req, res) {
-    res.sendFile('` + name + `.html', {root: './public/'});
-});
-
-module.exports = router;
-`;
-    return template;
-}
-
-var appTemplate = function(names) {
-    var template =
-`var server = require('http').createServer()
-  , url = require('url')
-  , express = require('express')
-  , app = express()
-  , port = 8080`
-
-    for (i in names) {
-        name = names[i];
-        template += "\n  , " + name + " = require('./routes/" + name + "')"
-    }
-    template += ";\n"
-
-    template +=
-`
-app.use(express.static(__dirname + '/public'));
-app.use('/data', express.static(__dirname + '/data'));
-app.get('/', function (req, res) {
-    res.sendFile('` + names[0] + `.html', {root: './public/'});
-});
-`
-
-    for (i in names) {
-        name = names[i];
-        template += "\napp.use('/" + name + "', " + name + ");"
-    }
-
-    template +=
-`
-
-server.on('request', app);
-server.listen(port, function () { console.log('Listening on ' + server.address().port) });
-`
-    return template;
-}
-
 var generateNavbar = function(files) {
     fs.writeFileSync(__dirname + "/../public/navbar.html", navTemplate(files), 'utf8');
 }
 
 var generateHtml = function(name) {
     fs.writeFileSync(__dirname + "/../public/" + name + '.html', htmlTemplate(name), 'utf8');
-}
-
-var generateRoute = function(name) {
-    fs.writeFileSync(__dirname + "/../routes/" + name + '.js', routeTemplate(name), 'utf8');
-}
-
-var generateApp = function(files) {
-    fs.writeFileSync(__dirname + "/../app.js", appTemplate(files), 'utf8');
 }
 
 var files = _getAllFilesFromFolder(__dirname + "/../data/shared");
@@ -221,16 +166,5 @@ generateNavbar(files);
 for (file in files) {
     generateHtml(files[file]);
 }
-
-console.log("Generating routes...");
-if (!fs.existsSync("routes")) {
-    fs.mkdirSync("routes");
-}
-for (file in files) {
-    generateRoute(files[file]);
-}
-
-console.log("Generating app...");
-generateApp(files);
 
 console.log("Done!");
